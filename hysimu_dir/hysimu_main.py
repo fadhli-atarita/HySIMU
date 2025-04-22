@@ -26,6 +26,7 @@ functions, all located inside the hysimu directory ("/hysimu_dir")
     - "hysimu_lrt_computation.py"
     - "hysimu_radiance_computation.py"
     - "hysimu_psf_filter_simplified.py"
+    - "hysimu_spatial_mixing.py"
 
 For the full documentation, read these files (inside the "/hysimu_files"
 directory:
