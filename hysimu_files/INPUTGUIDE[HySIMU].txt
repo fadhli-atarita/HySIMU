@@ -203,7 +203,7 @@ export LD_LIBRARY_PATH > set your matlab runtime installation path. if using a f
 				mcr-path-settings-for-run-time-deployment.html).
 				
 SCRIPTS_DIR > path to the /hysimu_dir/ directory
-INPUT_FILE > the name of the input parameter .xlsx file. place the file inside your 
+INPUT_FILE > the name of the input parameter .xlsx/.csv file. place the file inside your 
 		working directory.
 
 module load > load all the modules required for python, matlab, 6S, and libradtran.
@@ -211,8 +211,9 @@ module load > load all the modules required for python, matlab, 6S, and libradtr
 source > path to activate your python environment that contains all the dependencies
 		for hysimu.
 
-!! Make sure you use the correct EOL
-!! for the .sh file and the correct format for the input file (.xlsx or .csv)
+!! Make sure you use the correct EOL for the .sh file
+!! Make sure in the hysimu_main.py, uncomment the appropriate pandas.read_xlsx/csv function,e
+	depending on the format of the input fil input file (.xlsx or .csv)
 !! Be careful about unwanted space outside of strings
 
 # --------------------------------------------------------------------------------------- #
