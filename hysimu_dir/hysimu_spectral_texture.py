@@ -5,7 +5,7 @@ hysimu_spectral_texture
 A function to generate synthetic reflectance spectra of selected endmembers
 from user inputs or the hysimu_spectra_selector_function based on
 covariance and standard deviation and populate the ground truth datacube
-with them
+with these spectra.
 
 This function follows, with adjustments, the algorithm described in
 Schott, J. R., Salvaggio, C., Brown, S. D., & Rose, R. A. (1995).
