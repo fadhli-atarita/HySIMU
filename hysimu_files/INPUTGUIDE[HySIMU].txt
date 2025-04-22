@@ -211,6 +211,8 @@ module load > load all the modules required for python, matlab, 6S, and libradtr
 source > path to activate your python environment that contains all the dependencies
 		for hysimu.
 
-be careful about unwanted space outside of strings!!
+!! Make sure you use the correct EOL
+!! for the .sh file and the correct format for the input file (.xlsx or .csv)
+!! Be careful about unwanted space outside of strings
 
 # --------------------------------------------------------------------------------------- #
