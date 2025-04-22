@@ -89,9 +89,8 @@ using a previously computed net PSF filter.
 Dependencies
 -------------
 - Python packages:
-    numpy, pandas, scipy, openpyxl, mat73, spectral python, py6S,
-    pyLRT, scikit-learn, gstools, pvlib, haversine, timezonefinder,
-    insolation, matlabengine
+  	numpy, pandas, scipy, openpyxl, mat73, spectral python, py6S, pyLRT,
+  	scikit-learn, pvlib, haversine, timezonefinder, insolation, matlabengine
     (including all of their respective dependencies).
 
 - Matlab function:
