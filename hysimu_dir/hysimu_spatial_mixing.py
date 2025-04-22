@@ -4,7 +4,7 @@ hysimu_spatial_mixing
 ------
 A function to perform spatial mixing parallelly with joblib to downsample
 the surface reflectance datacube to sensor resolution, using a previously
-computed net PSF filter
+computed net PSF filter.
 """
 # ======================================================================= #
 # IMPORT PACKAGES
