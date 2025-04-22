@@ -3,7 +3,7 @@
 hysimu_sixs_computation
 ------
 A function to parallelly compute 6S Radiative Transfer Model
-using the py6S wrapper
+using the py6S wrapper.
 
 6S (Second Simulation of a Satellite Signal in the Solar) installation.
     Spectrum vector code by Vermote et al.
