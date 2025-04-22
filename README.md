@@ -89,7 +89,7 @@ using a previously computed net PSF filter.
 Dependencies
 -------------
 - Python packages:
-  	numpy, pandas, scipy, openpyxl, mat73, spectral python, py6S, pyLRT,
+  	numpy, pandas, scipy, openpyxl, mat73, spectral python, py6S, pyLRT, joblib,
   	scikit-learn, pvlib, haversine, timezonefinder, insolation, matlabengine
     (including all of their respective dependencies).
 
