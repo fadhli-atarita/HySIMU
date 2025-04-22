@@ -109,7 +109,7 @@ Hyperspectral remote sensing Spatial Response Resampling (SR2)
   - _WIN for windows
   - _MAC for macos (not included yet)
 
-  It requires either a full matlab OR a matlab runtime installation version 2024b.
+  It requires either a full matlab OR the freely available matlab runtime installation version 2024b.
 
   The package can be found inside the "hysimu_dependencies" directory and
         steps to install these packages as python packages can be found on:
