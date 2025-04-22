@@ -7,7 +7,7 @@ from user inputs or the hysimu_spectra_selector_function based on
 covariance and standard deviation and populate the ground truth datacube
 with them
 
-This function follows, with adjustments, the algorithm describe in
+This function follows, with adjustments, the algorithm described in
 Schott, J. R., Salvaggio, C., Brown, S. D., & Rose, R. A. (1995).
 Incorporation of texture in multispectral synthetic image generation tools
 (W. R. Watkins & D. Clement, Eds.; pp. 189–196).
