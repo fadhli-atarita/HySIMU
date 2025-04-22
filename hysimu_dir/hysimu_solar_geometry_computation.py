@@ -4,7 +4,7 @@ hysimu_solar_geometry_computation
 ------
 A function to correct solar and view geometry on non-flat DEM,
 pixel by pixel. The outputs of this module will be used as inputs for
-RTM computation
+RTM computation.
 
 The calculation is based on the formula to compute the angle of incidence
 on an inclined surface:
