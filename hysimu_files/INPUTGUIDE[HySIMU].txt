@@ -211,8 +211,8 @@ module load > load all the modules required for python, matlab, 6S, and libradtr
 source > path to activate your python environment that contains all the dependencies
 		for hysimu.
 
-!! Make sure you use the correct EOL for the .sh file
-!! Make sure in the hysimu_main.py, uncomment the appropriate pandas.read_xlsx/csv function,e
+!! Make sure you use the correct EOL for the .sh file, depending on your system
+!! Make sure in the hysimu_main.py, uncomment the appropriate pandas.read_xlsx/csv function,
 	depending on the format of the input fil input file (.xlsx or .csv)
 !! Be careful about unwanted space outside of strings
 
