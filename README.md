@@ -67,6 +67,9 @@ A function to parallelly compute libRadtran Radiative Transfer Model using the p
   			The libradtran software package for radiative transfer calculations (version 2.0.1).
   			Geoscientific Model Development, 9(5):1647-1672, 2016.
 
+   			B. Mayer and A. Kylling. Technical note: The libRadtran software package for radiative transfer calculations - description and examples of use.
+   			Atmos. Chem. Phys., 5: 1855-1877, 2005.
+
 		and its python wrapper pyLRT by Gryspeerdt
   		> https://github.com/EdGrrr/pyLRT
 
