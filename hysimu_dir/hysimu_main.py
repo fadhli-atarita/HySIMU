@@ -54,7 +54,7 @@ start_time = time.time()
 # Read input .xlsx file
 input_file = sys.argv[1]
 df = pd.read_excel(input_file)
-#df = pd.read_csv(input_file, sep=';')
+# df = pd.read_csv(input_file, sep=';')
 
 # Directories
 project_dir = df.loc[
