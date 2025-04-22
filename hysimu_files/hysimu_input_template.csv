@@ -1,0 +1,60 @@
+﻿parameter;value
+project_directory_path;/path/to/project/directory/
+project_name;hysimu_template
+platform_type;aircraft
+platform_name;AVIRIS
+processing_cores;32
+joblib_verbose_level;0
+spectral_map_pixel_resolution_in_m;1
+sensor_spatial_resolution_in_m;4
+spectral_map_file;random or /path/to/file or dem_based_fractal
+spectral_map_complexity_level;0.7
+spectral_map_randomness_offset_factor;0
+number_of_endmembers;5
+number_of_subregions;1
+number_of_rows;1200
+number_of_columns;1600
+spectral_endmembers_file;random or /path/to/file
+original_bands_file;none or /path/to/file
+original_bands_fwhm_file;none or /path/to/file
+sensor_bands_file;/path/to/file
+sensor_bands_fwhm_file;none or /path/to/file
+spectral_endmembers_material_type;mineral or vegetation
+input_DEM_file;random or /path/to/file
+DEM_maximum_altitude;40 or none
+spatial_smoothness_list;default or [a list]
+add_spectral_statistical_texture;yes or no
+spectral_variance_list;default or [a list]
+num_of_synthetic_samples;10 or default
+add_control_pixels;yes or no
+sensor_altitude_in_m;4000
+PSF_filter_option;SR2 or simplified or none
+flight_line_heading_in_degrees;0
+sensor_FOV_in_degrees;36
+sensor_pixel_count;677
+platform_speed_in_meter_per_sec;36
+sensor_integration_time_in_sec;0.087
+cross_track_summing_factor;1
+optical_FWHM;1
+spatial_mixing_order;3
+compute_solar_geometry;yes or no
+acquisition_date;2024/06/12
+acquisition_time;13:00:00
+top_left_pixel_latitude;44
+top_left_pixel_longitude;-70
+view_azimuth_angle;10
+view_zenith_angle;10
+rtm_choice;6S or LRT
+6S_path; /path/to/6S/installation or default
+6S_output_type;apparent_radiance or apparent_reflectance or none
+6S_atmosphere_profile;MidlatitudeSummer
+6S_aerosol_profile;Continental
+LRT_path; /path/to/LRT/installation
+LRT_scratch_directory_path;/global/scratch/hpc4825/hyperspectral/
+LRT_output_type;radiance or reflectance or none
+LRT_atmosphere_profile;tropics
+LRT_aerosol_profile;5
+LRT_H2O_mm;value or /path/to/file or default
+LRT_CO2_ppm;value or /path/to/file or default
+LRT_CH4_ppm;value or /path/to/file or default
+no_rtm_output_type;radiance or reflectance or none
