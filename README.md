@@ -131,7 +131,7 @@ Templates can be found inside the "hysimu_files" directory.
 
 - An ecostress spectral library compiled by the spectral python package
     called 'ecostress.db' located inside '/hysimu_dir'.
-- Input parameters should be written in an .xlsx file (see template).
+- Input parameters should be written in an .xlsx/.csv file (see template).
 - A SLURM batch file (see template).
 
 Usage
