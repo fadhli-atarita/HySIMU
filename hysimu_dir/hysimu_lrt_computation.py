@@ -3,7 +3,7 @@
 hysimu_lrt_computation
 ------
 A function to parallelly compute libRadtran Radiative Transfer Model
-using the pyLRT wrapper
+using the pyLRT wrapper.
 
 RTM code by Mayer et al.
     [http://www.libradtran.org/doku.php?id=start
