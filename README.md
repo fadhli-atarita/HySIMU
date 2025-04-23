@@ -130,7 +130,7 @@ Hyperspectral remote sensing Spatial Response Resampling (SR2)
 
 Inputs
 -------
-Templates can be found inside the "hysimu_files" directory.
+Input guide and templates can be found inside the "hysimu_files" directory.
 
 - An ecostress spectral library compiled by the spectral python package
     called 'ecostress.db' located inside '/hysimu_dir'.
