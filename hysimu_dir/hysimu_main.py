@@ -121,7 +121,7 @@ num_endmembers = df.loc[
     df["parameter"] == "number_of_endmembers",
     "value"].iloc[0]
 # Number of subregions within each spectral zone that represent
-# spectrall texture
+# spectral texture
 num_subregions = df.loc[
     df["parameter"] == "number_of_subregions",
     "value"].iloc[0]
@@ -345,7 +345,7 @@ else:
         "No FWHM file specified for original bands. "
         "FWHM is assumed to be half distance"
     )
-    sensor_bands_fwhm = None
+    og_bands_fwhm = None
 
 # Output/sensor bands file
 sensor_bands = np.loadtxt(
