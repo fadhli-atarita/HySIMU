@@ -4,7 +4,7 @@
 hysimu_random_map_generator
 ------
 A function to create a random spectral map to simulate a
-distribution of spectral zones (mineral or vegetation) on the surface.
+distribution of spectral zones on the surface.
 The spectral zones are discretized from a fractal field generated using
 inverse FFT of random noises normalized by Hurst-influenced
 power spectrum synthesis coefficients of FFT frequencies.
