@@ -76,10 +76,9 @@ A function to parallelly compute libRadtran Radiative Transfer Model using the p
 - __"hysimu_radiance_computation.py"__\
 A function to parallelly compute radiance without radiative transfer model based on the formula:\
 Reflectance(λ) = π * TOA Radiance(λ) / Solar irradiance(λ) * cos(sun zenith)
-	> 		Chander, G., Markham, B. L., & Helder, D. L. (2009).
-  			Summary of current radiometric calibration coefficients for Landsat
-    			MSS, TM, ETM+, and EO-1 ALI sensors. Remote Sensing of Environment,
-    			113(5), 893–903. https://doi.org/10.1016/j.rse.2009.01.007
+
+			Chander, G., Markham, B. L., & Helder, D. L. (2009). Summary of current radiometric calibration coefficients for Landsat
+			MSS, TM, ETM+, and EO-1 ALI sensors. Remote Sensing of Environment, 113(5), 893–903. https://doi.org/10.1016/j.rse.2009.01.007
 
 - __"hysimu_psf_filter_simplified.py"__\
 A function to compute a simplified PSF for hyperspectral imaging. A simplified PSF filter based on a gaussian distribution to simulate
