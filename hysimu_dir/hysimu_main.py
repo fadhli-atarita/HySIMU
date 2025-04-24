@@ -149,6 +149,12 @@ elif input_dem_file.endswith(".npy"):
 # If spectral map type is random
 elif input_dem_file.lower() == "random":
     DEM_option = "random"
+else:
+    logger.warning(
+        "None or invalid DEM. "
+        "Flat DEM is assumed"
+    )
+    DEM_option = "none"
 
 # Spectral distribution/zone map
 # If spectral zone map is an input file
@@ -339,7 +345,7 @@ else:
         "No FWHM file specified for original bands. "
         "FWHM is assumed to be half distance"
     )
-    og_bands_fwhm = None
+    sensor_bands_fwhm = None
 
 # Output/sensor bands file
 sensor_bands = np.loadtxt(
@@ -575,7 +581,7 @@ if add_solar.lower() == "yes":
     # Import the module
     import hysimu_solar_geometry_computation as hy_solar
 
-    # Compute/correct solar and view angles on non-flat DEm
+    # Compute/correct solar and view angles on non-flat DEM
     # using hysimu_solar_geomtery_calculation module
     sun_angles, view_angles, ref_sun_az, ref_sun_zen = hy_solar.main(
         latitude=lat,

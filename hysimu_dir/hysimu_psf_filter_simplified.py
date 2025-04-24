@@ -6,9 +6,9 @@ A simplified PSF filter based on a gaussian distribution to simulate
 an airy disk convolved with a rectangular response function
 image motion and electronic response are ignored.
 
-Calculation of the PSFs follows formulas provided by:
-Schowengerdt, R. A. (2007). Remote sensing, models, and
-    methods for image processing (3rd ed). Academic Press. p85-91
+Calculation of the PSFs follows formulas provided in:
+    [Schowengerdt, R. A. (2007). Remote sensing, models, and
+    methods for image processing (3rd ed). Academic Press. p85-91]
 """
 # ======================================================================= #
 # IMPORT PACKAGES

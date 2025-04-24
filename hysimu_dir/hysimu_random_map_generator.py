@@ -104,8 +104,10 @@ def generate_fields(
         # Otherwise, the DEM will be generated from the same fractal field
         # to keep spatial correlation consistency, normalized by the
         # maximum altitude variable
-        else:
+        elif DEM_option == "random":
             dem = fractal_field * max_height
+        else:
+            dem = np.zeros_like(fractal_field)
 
     # Normalize the fractal field
     fractal_field -= fractal_field.min()

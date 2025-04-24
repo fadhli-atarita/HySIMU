@@ -8,9 +8,9 @@ RTM computation.
 
 The calculation is based on the formula to compute the angle of incidence
 on an inclined surface:
-        cos θ = cos θz cos β + sin θz sin β cos(γs − γ)
+            cos θ = cos θz cos β + sin θz sin β cos(γs − γ)
 [Dufﬁe, J. A., & Beckman, W. A. (n.d.).
-Solar Engineering of Thermal Processes. p14]
+    Solar Engineering of Thermal Processes. p14]
 """
 # ======================================================================= #
 # IMPORT PACKAGES
@@ -128,6 +128,15 @@ def main(
     demslope = insolf.slope(dem, cell_size_m, degrees=True)
     demaspect = insolf.aspect(dem, cell_size_m, degrees=True)
 
+    # Angle normalization
+    # Hysimu convention: sun az (0 deg in N; 90 deg in E; 180 deg in S)
+    # Insolation & pvlib convention is the same
+    # However, the formula from Duffie & Beckman has a different convention
+    # 0 deg sun in S; +90 sun in W; -90 sun in E; +-180 sun in N
+    # normalize both aspect and sun az
+    demaspect -= 180
+    sun_grid[:, :, 0] -= 180
+
     # Initialize corrected arrays
     sun_corr_grid = np.zeros_like(sun_grid)
     view_corr_grid = np.zeros_like(view_grid)
@@ -150,7 +159,8 @@ def main(
             )
 
             sun_corr_grid[i, j, 1] = np.rad2deg(np.arccos(sun_inc))
-            sun_corr_grid[i, j, 0] = sun_grid[i, j, 0]
+            # Normalize back to hysimu convention
+            sun_corr_grid[i, j, 0] = sun_grid[i, j, 0] + 180
 
             # View angles
             view_inc = (
@@ -166,7 +176,8 @@ def main(
             )
 
             view_corr_grid[i, j, 1] = np.rad2deg(np.arccos(view_inc))
-            view_corr_grid[:, :, 0] = view_grid[i, j, 0]
+            # Normalize back to hysimu convention
+            view_corr_grid[:, :, 0] = view_grid[i, j, 0] + 180
 
     # Reminder: index 0 is azimuth and index 1 is zenith!!
 

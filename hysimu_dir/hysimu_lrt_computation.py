@@ -151,13 +151,12 @@ def lrt_computation(
 
     # Solar angles
     # Solar azimuth
+    # Hysimu convention: sun az (0 deg in N; 90 deg in E; 180 deg in S)
     sun_az = solar_angles_grid[i, j, 0]
-    sun_az %= 360  # normalize azimuth
-    if 0 <= sun_az < 180:
-        phi0 = sun_az + 180
-    elif 180 <= sun_az <= 360:
-        phi0 = sun_az - 180
-    slrt.options["phi0"] = str(phi0)  # sun azimuth (180 deg is sun in N)
+    # Normalize azimuth to lrt convention
+    # sun azimuth (0 deg sun in S; 90 deg sun in W, 180 deg sun in N)
+    phi0 = (sun_az + 180) % 360
+    slrt.options["phi0"] = str(phi0)
 
     # Solar zenith
     sun_zen = solar_angles_grid[i, j, 1]
