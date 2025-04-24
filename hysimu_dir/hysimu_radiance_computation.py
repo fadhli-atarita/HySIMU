@@ -6,8 +6,10 @@ A function to parallelly compute radiance without radiative transfer
 model based on the formula:
     Reflectance(λ) = π * TOA Radiance(λ) /
                  Solar irradiance(λ) * cos(sun zenith)
-    [Schowengerdt, R. A. (2007). Remote sensing, models, and
-    methods for image processing (3rd ed). Academic Press. p52]
+    [Chander, G., Markham, B. L., & Helder, D. L. (2009).
+    Summary of current radiometric calibration coefficients for Landsat
+    MSS, TM, ETM+, and EO-1 ALI sensors. Remote Sensing of Environment,
+    113(5), 893–903. https://doi.org/10.1016/j.rse.2009.01.007]
 """
 # ======================================================================= #
 # IMPORT PACKAGES
