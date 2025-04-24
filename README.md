@@ -19,7 +19,7 @@ HySIMU consists of the main "hysimu_main.py" script and several functions/module
 A function to centralize logging for hysimu modules. Except for joblib verbose.
 
 - __"hysimu_random_map_generator.py"__\
-A function to create a random spectral map to simulate a distribution of spectral zones (mineral or vegetation) on the surface.
+A function to create a random spectral map to simulate a distribution of spectral zones on the surface.
 The spectral zones are discretized from a fractal field generated using inverse FFT of random noises normalized by Hurst-influenced power spectrum synthesis coefficients of FFT frequencies.\
 This function follows, with adjustments, the algorithm described in:
 	> 		"Frequency Synthesis of Landscapes (and clouds)" by Paul Bourke https://paulbourke.net/fractals/noise/
