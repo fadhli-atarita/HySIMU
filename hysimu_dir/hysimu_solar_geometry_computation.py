@@ -10,7 +10,7 @@ The calculation is based on the formula to compute the angle of incidence
 on an inclined surface:
             cos θ = cos θz cos β + sin θz sin β cos(γs − γ)
 [Dufﬁe, J. A., & Beckman, W. A. (n.d.).
-    Solar Engineering of Thermal Processes. p14]
+Solar Engineering of Thermal Processes. p14]
 """
 # ======================================================================= #
 # IMPORT PACKAGES
