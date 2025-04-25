@@ -33,7 +33,10 @@ def gaussian_psf(grid, sigma):
         Gaussian PSF (array)
     """
 
-    psf = np.exp(-(grid[0]**2 + grid[1]**2) / (2 * sigma**2))
+    psf = (
+        (1 / (2 * np.pi * sigma * sigma))
+        * np.exp(-(grid[0]**2 / sigma**2 + grid[1]**2 / sigma**2))
+    )
     return psf / psf.sum()
 
 # ======================================================================= #

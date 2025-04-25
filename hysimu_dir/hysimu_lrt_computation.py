@@ -319,7 +319,7 @@ def main(
     # If invalid, set as default
     else:
         raise ValueError(
-            "Gas input should be a float/int/path to file/'default'"
+            "Gas input should be a float/int/path to file/'default'."
         )
     # Check gas concentration map to pass to child function
     try:
@@ -353,7 +353,7 @@ def main(
     # If invalid, set as default
     else:
         raise ValueError(
-            "Gas input should be a float/int/path to file/'default'"
+            "Gas input should be a float/int/path to file/'default'."
         )
     # Check gas concentration map to pass to child function
     try:
@@ -387,7 +387,7 @@ def main(
     # If invalid, set as default
     else:
         raise ValueError(
-            "Gas input should be a float/int/path to file/'default'"
+            "Gas input should be a float/int/path to file/'default'."
         )
     # Check gas concentration map to pass to child function
     try:

@@ -96,7 +96,7 @@ logger.info("HySIMU - START")
 # ======================================================================= #
 # CREATE GROUND TRUTH / SPECTRAL DISTRIBUTION (ZONES) MAP
 # ======================================================================= #
-logger.info("Creating ground truth map")
+logger.info("Creating ground truth map.")
 
 # Spatial resolutions
 # Pixel resolution of the ground truth spectral map
@@ -121,7 +121,7 @@ num_endmembers = df.loc[
     df["parameter"] == "number_of_endmembers",
     "value"].iloc[0]
 # Number of subregions within each spectral zone that represent
-# spectrall texture
+# spectral texture
 num_subregions = df.loc[
     df["parameter"] == "number_of_subregions",
     "value"].iloc[0]
@@ -152,7 +152,7 @@ elif input_dem_file.lower() == "random":
 else:
     logger.warning(
         "None or invalid DEM. "
-        "Flat DEM is assumed"
+        "Flat DEM is assumed."
     )
     DEM_option = "none"
 
@@ -196,7 +196,7 @@ elif spectral_map_file.lower() == "dem_based_fractal":
         spatial_smoothness = np.ones(num_endmembers)
         logger.warning(
             "Invalid spatial smoothness values. "
-            "1 is assumed for all spectral zones"
+            "1 is assumed for all spectral zones."
         )
 
     # Run hysimu_random_map_generator main function
@@ -260,7 +260,7 @@ elif spectral_map_file.lower() == "random":
         spatial_smoothness = np.ones(num_endmembers)
         logger.warning(
             "Invalid spatial smoothness values. "
-            "1 is assumed for all spectral zones"
+            "1 is assumed for all spectral zones."
         )
 
     # Run hysimu_random_map_generator main function
@@ -312,7 +312,7 @@ else:
 # ======================================================================= #
 # READ/SELECT SPECTRAL ENDMEMBERS
 # ======================================================================= #
-logger.info("Reading/selecting spectral endmembers")
+logger.info("Reading/selecting spectral endmembers.")
 
 # Spectral endmembers file (input or random)
 spectral_endmembers_file = df.loc[
@@ -343,9 +343,9 @@ if og_bands_fwhm.endswith(".txt") or og_bands_fwhm.endswith(".dat"):
 else:
     logger.info(
         "No FWHM file specified for original bands. "
-        "FWHM is assumed to be half distance"
+        "FWHM is assumed to be half distance."
     )
-    sensor_bands_fwhm = None
+    og_bands_fwhm = None
 
 # Output/sensor bands file
 sensor_bands = np.loadtxt(
@@ -363,7 +363,7 @@ if sensor_bands_fwhm.endswith(".txt") or sensor_bands_fwhm.endswith(".dat"):
 else:
     logger.info(
         "No FWHM file specified for sensor bands. "
-        "FWHM is assumed to be half distance"
+        "FWHM is assumed to be half distance."
     )
     sensor_bands_fwhm = None
 
@@ -401,7 +401,7 @@ elif spectral_endmembers_file.endswith(".npy"):
 elif spectral_endmembers_file.lower() == "random":
     logger.info(
         "Randomly selecting spectral endmembers from "
-        "the ECOSTRESS library"
+        "the ECOSTRESS library."
     )
 
     # If endmember spectra is set to random, randomly select using
@@ -426,14 +426,14 @@ elif spectral_endmembers_file.lower() == "random":
 # Invalid input spectral endmembers parameter
 else:
     raise ValueError(
-        "Input spectral endmembers invalid"
+        "Input spectral endmembers invalid."
     )
 
 
 # ======================================================================= #
 # BUILD AND PROCESS SYNTHETIC SURFACE REFLECTANCE (GROUND TRUTH) DATACUBE
 # ======================================================================= #
-logger.info("Building surface reflectance datacube")
+logger.info("Building surface reflectance datacube.")
 
 # Check option to add spectral texture
 add_spectral_texture = df.loc[
@@ -442,7 +442,7 @@ add_spectral_texture = df.loc[
 
 # If spectral texture is desired
 if add_spectral_texture.lower() == "yes":
-    logger.info("Adding spectral texture")
+    logger.info("Adding spectral texture.")
 
     # Import the module
     import hysimu_spectral_texture as hy_texture
@@ -459,7 +459,10 @@ if add_spectral_texture.lower() == "yes":
     except Exception:
         # If not, assumed default values
         spectral_vars = (0.05 * np.ones(num_endmembers)) ** 2
-        logger.warning("Spectral variance of 0.5^2 is assumed")
+        logger.warning(
+            "Invalid spectral variance. "
+            "Spectral variance of 0.05^2 is assumed."
+        )
 
     # Number of synthetic samples desired
     num_samples = df.loc[
@@ -469,7 +472,7 @@ if add_spectral_texture.lower() == "yes":
     # If the num_samples parameter is set as default
     if isinstance(num_samples, str):
         num_samples = 5
-        logger.warning("5 synthetic samples for each spectra is assumed")
+        logger.warning("5 synthetic samples for each spectra is assumed.")
 
     # Create the synthetic ground truth datacube & add texture if desired
     # using hysimu_spectral_texture module
@@ -494,7 +497,7 @@ if add_spectral_texture.lower() == "yes":
 
 # Create ground truth datacube without texture
 else:
-    logger.info("No spectral texture is added")
+    logger.info("No spectral texture is added.")
 
     # Initialize the array
     synthetic_ground_truth = np.zeros(
@@ -521,7 +524,7 @@ control_pixels = df.loc[
 if control_pixels.lower() == "yes":
     logger.info(
         "Dark pixels in the top-left corner and "
-        "Bright pixels in the bottom-right corner"
+        "bright pixels in the bottom-right corner."
     )
     for i in range(sensor_res):
         for j in range(sensor_res):
@@ -530,7 +533,7 @@ if control_pixels.lower() == "yes":
             # Bright pixels bottom right
             synthetic_ground_truth[num_row - 1 - i, num_col - 1 - j, :] = 1
 else:
-    logger.info("No control pixels in the scene")
+    logger.info("No control pixels in the scene.")
 
 
 # ======================================================================= #
@@ -576,7 +579,7 @@ dem_res = gt_res
 
 # Calculating solar and view geometry
 if add_solar.lower() == "yes":
-    logger.info("Computing solar and view angles")
+    logger.info("Computing solar and view angles.")
 
     # Import the module
     import hysimu_solar_geometry_computation as hy_solar
@@ -597,7 +600,7 @@ if add_solar.lower() == "yes":
 
 # otherwise, calculation/correction is not needed
 else:
-    logger.info("Using reference sun and view angles")
+    logger.info("Using reference solar and view angles.")
 
     # Import pvlib and timezone finder to get reference solar
     # position (pixel [0,0])
@@ -636,7 +639,7 @@ rtm_choice = df.loc[
 # 6S RTM
 # ----------------------------------------------------------------------- #
 if rtm_choice.lower() == "6s":
-    logger.info("Computing 6S RTM")
+    logger.info("Computing 6S RTM.")
 
     # Compute 6S RTM using hysimu_sixs_computation module
 
@@ -688,7 +691,7 @@ if rtm_choice.lower() == "6s":
 # ----------------------------------------------------------------------- #
 
 elif rtm_choice.lower() == "lrt":
-    logger.info("Computing LRT RTM")
+    logger.info("Computing LRT RTM.")
 
     # Compute libRadtran RTM using hysimu_lrt_computation module
 
@@ -805,7 +808,7 @@ img_ratio = sensor_res / gt_res
 
 # If SR2 PSF filter is selected
 if psf_filter.lower() == "sr2":
-    logger.info("Computing SR2 PSF filter")
+    logger.info("Applying SR2 PSF filter.")
 
     # Compute the SR2 PSF spatial filter from a matlab function
     """
@@ -879,8 +882,8 @@ if psf_filter.lower() == "sr2":
 
 # Else if a simplified psf filter is selected
 elif psf_filter.lower() == "simplified":
-    logger.warning(
-        "Simplified PSF filter is assumed.",
+    logger.info(
+        "Applying simplified PSF filter.",
         stacklevel=2
     )
     # Compute a simplified PSF filter using hysimu_psf_fitler_simplified
@@ -890,9 +893,10 @@ elif psf_filter.lower() == "simplified":
     import hysimu_psf_filter_simplified as hy_psf
 
     # Gaussian PSF window size based on the assumption that more than
-    # 50% pixel response originated from the surrounding pixels
-    # windows size ~ 2x sensor resolution
-    window_size = int(2 * img_ratio + 1)
+    # 50% pixel response originated from the surrounding pixels and
+    # from references [Gonzalez and Woods, 2017, p. 168]
+    # kernel radius ~ 3x pixel size (sigma): window size 6xsigma
+    window_size = int(6 * img_ratio)
     convx = np.linspace(
         -int(np.floor(img_ratio)), int(np.ceil(img_ratio)), window_size
     )
@@ -903,18 +907,22 @@ elif psf_filter.lower() == "simplified":
     conv_grid = (convx, convy)
 
     # Define parameters for PSFs
-    gaussian_sigma = img_ratio * np.sqrt(2) / 2
+    gaussian_sigma = img_ratio
     # Gaussian PSF standard deviation
     rect_size = img_ratio  # size of rectangular PSF
 
     # net psf from convolution of a gaussian PSF and a rect PSF
-    net_psf = hy_psf.main(conv_grid, gaussian_sigma, rect_size)
+    net_psf = hy_psf.main(
+        grid=conv_grid,
+        gaussian_sigma=gaussian_sigma,
+        rect_size=rect_size
+    )
 
 # Otherwise, not PSF filter is assumed and the datacube will be spatially
 # degraded only using a downsampling algorithm
 else:
     logger.warning(
-        "No PSF filter is assumed.",
+        "No PSF filter is applied.",
         stacklevel=2
     )
 
@@ -953,7 +961,7 @@ mix_order = df.loc[
 
 # If either SR2 or simplified PSF is chosen
 if psf_filter.lower() in ("sr2", "simplified"):
-    logger.info("Computing spatial mixing with PSF")
+    logger.info("Computing spatial mixing with PSF.")
 
     # Spatially mixing, using a convolution to the net PSF,
     # and spatially resampling the RTM computed datacube using
@@ -999,7 +1007,7 @@ else:
 # ======================================================================= #
 # OUTPUT FUNCTION
 # ======================================================================= #
-logger.info("Saving the output datacube to ENVI .bsq and .hdr")
+logger.info("Saving the output datacube to ENVI .bsq and .hdr.")
 
 # Reference pixel for ENVI header is the top-left pixel
 ref_pixelx = 1

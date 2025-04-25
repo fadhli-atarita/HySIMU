@@ -279,7 +279,7 @@ def main(
 
     # Parallel computation to produce the output
     try:
-        logger.info("Starting 6S indexing")
+        logger.info("Starting 6S indexing.")
 
         output_values = Parallel(n_jobs=cores, verbose=verbose_level)(
             delayed(sixs_output)(
