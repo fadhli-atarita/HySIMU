@@ -50,7 +50,7 @@ def slice_convolution(
     rows = datacube_slice.shape[0]
 
     # Run joblib
-    datacube_slice_conv = Parallel(n_jobs=-1)(
+    datacube_slice_conv = Parallel(n_jobs=cores)(
         delayed(
             lambda row: convolve2d(
                 datacube_slice[row:row + 1, :], net_psf,
