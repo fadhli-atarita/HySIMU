@@ -10,6 +10,14 @@ model based on the formula:
     Summary of current radiometric calibration coefficients for Landsat
     MSS, TM, ETM+, and EO-1 ALI sensors. Remote Sensing of Environment,
     113(5), 893–903. https://doi.org/10.1016/j.rse.2009.01.007]
+
+Solar irradiance values are taken from the "Global" dataset of
+the ASTM G173-03 Standard Spectrum included in the pvlib library.
+    [G03 Committee. (n.d.).
+    Tables for Reference Solar Spectral Irradiances:
+    Direct Normal and Hemispherical on 37 Tilted Surface. ASTM International.
+    https://doi.org/10.1520/G0173-03R08]
+
 """
 # ======================================================================= #
 # IMPORT PACKAGES
@@ -127,7 +135,7 @@ def main(
     am15 = pvlib.spectrum.get_reference_spectra(standard="ASTM G173-03")
 
     # Exoatmosphere or extraterrestrial solar spectral irradiance
-    ext_irr = np.array(am15["extraterrestrial"])
+    ext_irr = np.array(am15["global"])
     wave = np.array(am15.index)
 
     # Resampled to sensor bands
@@ -145,7 +153,7 @@ def main(
 
     # Parallel computation to produce the output
     try:
-        logger.info("Starting radiance indexing")
+        logger.info("Starting radiance indexing.")
 
         output_values = Parallel(n_jobs=cores, verbose=verbose_level)(
             delayed(radiance_output)(

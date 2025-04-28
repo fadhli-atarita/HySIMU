@@ -133,9 +133,10 @@ def main(
     # Insolation & pvlib convention is the same
     # However, the formula from Duffie & Beckman has a different convention
     # 0 deg sun in S; +90 sun in W; -90 sun in E; +-180 sun in N
-    # normalize both aspect and sun az
+    # normalize aspect, sun az, view az
     demaspect -= 180
     sun_grid[:, :, 0] -= 180
+    view_grid[:, :, 0] -= 180
 
     # Initialize corrected arrays
     sun_corr_grid = np.zeros_like(sun_grid)

@@ -880,6 +880,8 @@ if psf_filter.lower() == "sr2":
 
     HSIBlur.terminate()  # terminate function
 
+    net_psf = np.asarray(net_psf)
+
 # Else if a simplified psf filter is selected
 elif psf_filter.lower() == "simplified":
     logger.info(

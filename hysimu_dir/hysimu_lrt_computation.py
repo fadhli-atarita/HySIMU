@@ -143,7 +143,7 @@ def lrt_computation(
         slrt.options["altitude"] = str(target_altitude)
 
     # Sensor azimuth (the looking direction. 0 deg is sensor looking S)
-    view_az = view_angles_grid[i, j, 0]
+    view_az = view_angles_grid[i, j, 0] % 360
     slrt.options["phi"] = str(view_az)
     # Cosine of viewing zenith angle
     view_zen = view_angles_grid[i, j, 1]
@@ -258,15 +258,17 @@ def main(
     )
 
     # Setup aerosol parameter
+    slrt.options["aerosol_default"] = ""
     # Check if aero parameter is valid
     if isinstance(aero, int) and aero in [1, 4, 5, 6]:  # LRT aero haze list
-        slrt.options["aerosol_default"] = ""
         slrt.options["aerosol_haze"] = str(aero)
     # Otherwise, set default aerosol
     elif aero == "default":
-        slrt.options["aerosol_default"] = ""
+        logger.info(
+            "Default low aerosol is applied.",
+            stacklevel=2
+        )
     else:
-        slrt.options["aerosol_default"] = ""
         logger.warning(
             "Invalid LRT low aerosol type. Default low aerosol is applied.",
             stacklevel=2
