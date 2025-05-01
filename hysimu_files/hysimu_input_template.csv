@@ -2,7 +2,7 @@
 project_directory_path;/path/to/project/directory/
 project_name;hysimu_template
 platform_type;aircraft
-platform_name;AVIRIS
+platform_or_sensor_identifier;AVIRIS
 processing_cores;32
 joblib_verbose_level;0
 spectral_map_pixel_resolution_in_m;1
@@ -38,7 +38,7 @@ cross_track_summing_factor;1
 optical_FWHM;1
 spatial_mixing_order;3
 compute_solar_geometry;yes or no
-acquisition_date;2024/06/12
+acquisition_date;12/06/2024
 acquisition_time;13:00:00
 top_left_pixel_latitude;44
 top_left_pixel_longitude;-70

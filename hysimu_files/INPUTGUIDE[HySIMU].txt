@@ -21,7 +21,7 @@ Parameter guides:
 3. project_name > (str) this will be used to differentiate simulations and name all the outputs.
 4. platform_type > (str) type of remote sensing platform. "satellite", "aircraft", "uav". 
 			will impact the sensor altitude.
-5. platform_name > (str) platform name, if any.
+5. platform_or_sensor_identifier > (str) platform or sensor name for identifier, if any.
 6. processing_cores > (int) number of cores to run the scripts. has to be the same as in the 
 			slurm file. 64 or more is recommended.
 7. joblib_verbose_level > (int) joblib tracking. 0 means no tracking output. >0 prints tracking

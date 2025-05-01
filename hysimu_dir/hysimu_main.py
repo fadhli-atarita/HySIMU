@@ -68,8 +68,8 @@ project_name = df.loc[
 platform_type = df.loc[
     df["parameter"] == "platform_type",
     "value"].iloc[0]
-platform_name = df.loc[
-    df["parameter"] == "platform_name",
+sensor_name = df.loc[
+    df["parameter"] == "platform_or_sensor_identifier",
     "value"].iloc[0]
 
 # Processing cores for joblib parallelization
@@ -1021,7 +1021,7 @@ ref_sun_elev = 90 - ref_sun_zen
 metadata = {
     "description": (
         f"{project_name} {output_type} datacube "
-        f"simulated based on {platform_name} using {rtm_choice} RTM "
+        f"simulated based on {sensor_name} using {rtm_choice} RTM "
     ),
     "acquisition datetime": aq_datetime,
     "geo points": "{1, 1, " f"{lat}, {lon}""}",
@@ -1032,7 +1032,7 @@ metadata = {
     "file type": "ENVI Standard",
     "data type": 4,
     "interleave": "bsq",
-    "sensor type": platform_name,
+    "sensor type": sensor_name,
     "byte order": 0,
     "wavelength units": "nm",
     "sun azimuth": ref_sun_az,
