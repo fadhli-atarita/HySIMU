@@ -51,7 +51,8 @@ Parameter guides:
 				synthetisized (spectral texture). if no texture is desired,
 				set this parameter to 1. otherwise, set it to any other
 				positive integer. The higher, the more "textured" the datacube
-				will look.
+				will look. recommended value is a quarter of the minimum
+				dimension size of the spectral map or DEM.
 15. number_of_rows > (int) size of dimension 1 (row) of the spectral distribution map.
 			only if parameter 9 is set to "random". otherwise, set it to "none". 
 16. number_of_columns > (int) size of dimension 2 (column) of the spectral distribution map.
@@ -86,13 +87,15 @@ Parameter guides:
 24. DEM_maximum_altitude > (float) maximum point altitude in the DEM. only if parameter 23 is set
 				to "random". otherwise, set it to "none". recommended 
 				values: 5% of max map dimension.
-25. spatial_smoothness_list > (list, float) a list of values that represent the 'smoothness' level 
-				of the spatial texture/noise. the number of elements in the list 
-				must correspond to the number of endmembers (parameter 13).
-				Higher value means smoother texture. if parameter 14 is set to 1,
-				this parameter will not have any effect. default value is 1.
-				be advised that this will make the datacube look 'noisy' unless
-				parameter 14 is set to 1.
+25. spatial_correlation_nugget_list > (list, float) a list of values that represent the spatial
+					variance nugget of the generated random field that represents
+					the "spatial texture" of the image. the number of elements
+					in the list  must correspond to the number of endmembers
+					(parameter 13). Higher value means noisier texture. 
+					if parameter 14 is set to 1, this parameter will not have any
+ 					effect. default value is 0.05 and recommended value is 0.01.
+					be advised that this parameter will make the datacube look
+					'noisy' unless parameter 14 is set to 1.
 26. add_spectral_statistical_texture > (str) "yes" or "no". provides option to add the 'texture'
 					to the datacube. if set to no, it overrides all other texture
 					parameters (14 & 25). the datacube will look uniform

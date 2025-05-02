@@ -130,22 +130,36 @@ random_factor = df.loc[
     df["parameter"] == "spectral_map_randomness_offset_factor",
     "value"].iloc[0]
 
+# Set the noise/smooth levels of each spectral region
+spatial_nugget = df.loc[
+    df["parameter"] == "spatial_correlation_nugget_list",
+    "value"].iloc[0]
+# Check the values from the input list
+try:
+    spatial_nugget = spatial_nugget.split(',')
+    spatial_nugget = [float(var) for var in spatial_nugget]
+except Exception:
+    spatial_nugget = 0.1 * np.ones(num_endmembers)
+    logger.warning(
+        "Default or invalid spatial correlation nugget values. "
+        "0.1 is assumed for all spectral zones."
+    )
+
 # Input DEM file, if any
 input_dem_file = df.loc[
     df["parameter"] == "input_DEM_file",
     "value"].iloc[0]
 
 # DEM options
-if input_dem_file.endswith(".mat"):
+if input_dem_file.endswith((".mat", ".npy")):
+    DEM_option = "input"
     # If DEM file is a matlab v7.3 file
-    data_dict = mat73.loadmat(input_dem_file)
-    dem_i = np.array(list(data_dict.values()))
-    dem_i = np.squeeze(dem_i)
-    DEM_option = "input"
-elif input_dem_file.endswith(".npy"):
-    # If DEM file is a numpy file
-    dem_i = np.load(input_dem_file)
-    DEM_option = "input"
+    if input_dem_file.endswith(".mat"):
+        data_dict = mat73.loadmat(input_dem_file)
+        dem_i = np.array(list(data_dict.values()))
+        dem_i = np.squeeze(dem_i)
+    else:  # if .npy
+        dem_i = np.load(input_dem_file)
 # If spectral map type is random
 elif input_dem_file.lower() == "random":
     DEM_option = "random"
@@ -158,18 +172,32 @@ else:
 
 # Spectral distribution/zone map
 # If spectral zone map is an input file
-if spectral_map_file.endswith(".mat"):
-    # If it is a matlab file v7.3
-    data_dict = mat73.loadmat(spectral_map_file)
-    spectral_map = np.array(list(data_dict.values()))
-    spectral_map = np.squeeze(spectral_map)
+if spectral_map_file.endswith((".mat", ".npy")):
+    if spectral_map_file.endswith(".mat"):
+        # If it is a matlab file v7.3
+        data_dict = mat73.loadmat(spectral_map_file)
+        spectral_map = np.array(list(data_dict.values()))
+        spectral_map = np.squeeze(spectral_map)
+    else:  # if .npy
+        spectral_map = np.load(spectral_map_file)
+
     num_row = spectral_map.shape[0]
     num_col = spectral_map.shape[1]
-elif spectral_map_file.endswith(".npy"):
-    # If it is a numpy file
-    spectral_map = np.load(spectral_map_file)
-    num_row = spectral_map.shape[0]
-    num_col = spectral_map.shape[1]
+
+    from hysimu_random_map_generator import (
+        add_spatial_texture as hy_spatial_tex
+    )
+
+    subregion_map = hy_spatial_tex(
+        num_col=num_col,
+        num_row=num_row,
+        num_regions=num_endmembers,
+        num_subregions=num_subregions,
+        region_map=spectral_map,
+        spatial_nugget=spatial_nugget
+    )
+
+# Else if spectral zone map is based on DEM
 elif spectral_map_file.lower() == "dem_based_fractal":
 
     # If spectral map type is DEM-based
@@ -184,21 +212,6 @@ elif spectral_map_file.lower() == "dem_based_fractal":
     num_row = dem_i.shape[0]
     num_col = dem_i.shape[1]
 
-    # Set the noise/smooth levels of each spectral region
-    spatial_smoothness = df.loc[
-        df["parameter"] == "spatial_smoothness_list",
-        "value"].iloc[0]
-    # Check the values from the input list
-    try:
-        spatial_smoothness = spatial_smoothness.split(',')
-        spatial_smoothness = [float(var) for var in spatial_smoothness]
-    except Exception:
-        spatial_smoothness = np.ones(num_endmembers)
-        logger.warning(
-            "Invalid spatial smoothness values. "
-            "1 is assumed for all spectral zones."
-        )
-
     # Run hysimu_random_map_generator main function
     # max_height is None because DEM is already prescribed
     # dem_r will be ignored
@@ -212,7 +225,7 @@ elif spectral_map_file.lower() == "dem_based_fractal":
         DEM_option=DEM_option,
         DEM_input=dem_i,
         random_factor=random_factor,
-        spatial_smoothness=spatial_smoothness
+        spatial_nugget=spatial_nugget
     )
 
     # Save spectral distribution map as a gzip file
@@ -225,6 +238,7 @@ elif spectral_map_file.lower() == "dem_based_fractal":
     # Reassign DEM variable
     dem_map = dem_i
 
+# Else if spectral zone map is randomly generated
 elif spectral_map_file.lower() == "random":
 
     # If spectral map type is random
@@ -248,21 +262,6 @@ elif spectral_map_file.lower() == "random":
         df["parameter"] == "DEM_maximum_altitude",
         "value"].iloc[0]
 
-    # Set the noise/smooth levels of each spectral region
-    spatial_smoothness = df.loc[
-        df["parameter"] == "spatial_smoothness_list",
-        "value"].iloc[0]
-    # Check the values from the input list
-    try:
-        spatial_smoothness = spatial_smoothness.split(',')
-        spatial_smoothness = [float(var) for var in spatial_smoothness]
-    except Exception:
-        spatial_smoothness = np.ones(num_endmembers)
-        logger.warning(
-            "Invalid spatial smoothness values. "
-            "1 is assumed for all spectral zones."
-        )
-
     # Run hysimu_random_map_generator main function
     # DEM is None because DEM is either randomly generated
     # or already prescribed as input
@@ -276,7 +275,7 @@ elif spectral_map_file.lower() == "random":
         DEM_option=DEM_option,
         DEM_input=None,
         random_factor=random_factor,
-        spatial_smoothness=spatial_smoothness
+        spatial_nugget=spatial_nugget
     )
 
     # Save spectral distribution map as a gzip file
@@ -292,7 +291,7 @@ elif spectral_map_file.lower() == "random":
         # If DEM exists as an input, assign dem_i as dem_map
         dem_map = dem_i if dem_i else dem_r
     except NameError:
-        # Catch the scenario if dem_i doesn't exist. Assign
+        # Catch the scenario if dem_i doesn't exist. assign
         # dem_r as dem_map
         dem_map = dem_r if "dem_r" in globals() else None
 
@@ -460,7 +459,7 @@ if add_spectral_texture.lower() == "yes":
         # If not, assumed default values
         spectral_vars = (0.05 * np.ones(num_endmembers)) ** 2
         logger.warning(
-            "Invalid spectral variance. "
+            "Default or invalid spectral variance. "
             "Spectral variance of 0.05^2 is assumed."
         )
 

@@ -22,7 +22,7 @@ sensor_bands_fwhm_file;none or /path/to/file
 spectral_endmembers_material_type;mineral or vegetation
 input_DEM_file;random or /path/to/file
 DEM_maximum_altitude;40 or none
-spatial_smoothness_list;default or [a list]
+spatial_correlation_nugget_list;default or [a list]
 add_spectral_statistical_texture;yes or no
 spectral_variance_list;default or [a list]
 num_of_synthetic_samples;10 or default
