@@ -155,10 +155,10 @@ Outputs
 - A DEM file (if "random") as a compressed npy.gzip file.
 - An output datacube (radiance or reflectance) as a .BSQ ENVI file along with
 	a header .hdr file
-	Radiance datacube units:
-		> with 6S: watt / meter-squared steradian micrometer
-		> with LRT: miliwatt / meter-squared steradian nanometer
-		> with no RTM : watt / meter-squared steradian micrometer
+	- Radiance datacube units:
+		- 6S: watt / meter-squared steradian micrometer
+		- LRT: miliwatt / meter-squared steradian nanometer
+		- no RTM : watt / meter-squared steradian micrometer
 
 License
 --------
