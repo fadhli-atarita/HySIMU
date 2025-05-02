@@ -95,7 +95,7 @@ Dependencies
 -------------
 - Python packages:
   	numpy, pandas, scipy, openpyxl, mat73, spectral python, py6S, pyLRT, joblib,
-  	scikit-image, pvlib, haversine, timezonefinder, insolation, matlabengine
+  	scikit-image, pvlib, haversine, timezonefinder, insolation, matlabengine, gstools
     (including all of their respective dependencies).
 
 - Matlab function:
