@@ -147,6 +147,7 @@ Add all input files inside the project directory and run the batch file
 Outputs
 --------
 - A spectral distribution map (if "random") as a compressed npy.gzip file.
+- A synthetic surface reflectance datacube as a compressed npy.gzip file.
 - A spectral endmember spectra, names and ids (if "random") or a resampled
 	spectra to the output/sensor resolution (if spectra endmembers are an
 	input file).
