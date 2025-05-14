@@ -35,7 +35,7 @@ def lrt_computation(
     slrt,
     datacube,
     sensor_wavelengths,
-    scratch_directory,
+    output_dir,
     project_name,
     co2_map,
     ch4_map,
@@ -55,8 +55,8 @@ def lrt_computation(
         - datacube (array, float): surface reflectance datacube
         - sensor_wavelengths (float): array of output/sensor band wavelengths
                                         in nm
-        - scratch_directory (str): directory to temporarily save lrt
-                                    albedo files
+        - output_dir (str): directory to temporarily save lrt
+                            albedo files
         - project_name (str): project name as identifier
         - co2_map (array): CO2 atmopsheric concentration as input
         - ch4_map (array): CH4 atmopsheric concentration as input
@@ -95,7 +95,7 @@ def lrt_computation(
 
     # Save albedo file for LRT input
     filename = (
-        scratch_directory + project_name
+        output_dir + project_name
         + "_albedo_" + f"{i}" + "_" + f"{j}" + ".dat"
     )
     try:
@@ -189,7 +189,7 @@ def lrt_computation(
 def main(
     lrt_path,
     output_type,
-    scratch_directory,
+    output_dir,
     project_name,
     datacube,
     aero,
@@ -215,8 +215,8 @@ def main(
     Parameters:
         - lrt_path (str): libradtran installation path
         - output_type (str): lrt output type
-        - scratch_directory (str): directory to temporarily save lrt
-                                    albedo files
+        - output_dir (str): directory to temporarily save lrt
+                            albedo files
         - project_name (str): project name as identifier
         - datacube (array, float): surface reflectance datacube
         - aero (int): libradtran aerosol parameter
@@ -432,7 +432,7 @@ def main(
                 slrt=slrt,
                 datacube=datacube,
                 sensor_wavelengths=sensor_wavelengths,
-                scratch_directory=scratch_directory,
+                output_dir=output_dir,
                 project_name=project_name,
                 co2_map=co2_map,
                 ch4_map=ch4_map,

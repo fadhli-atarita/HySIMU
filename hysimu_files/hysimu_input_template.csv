@@ -1,5 +1,6 @@
 ﻿parameter;value
 project_directory_path;/path/to/project/directory/
+output_directory_path;/path/to/project/output_directory/
 project_name;hysimu_template
 platform_type;aircraft
 platform_or_sensor_identifier;AVIRIS
@@ -50,7 +51,6 @@ rtm_choice;6S or LRT
 6S_atmosphere_profile;MidlatitudeSummer
 6S_aerosol_profile;Continental
 LRT_path; /path/to/LRT/installation
-LRT_scratch_directory_path;/global/scratch/hpc4825/hyperspectral/
 LRT_output_type;radiance or reflectance or none
 LRT_atmosphere_profile;tropics
 LRT_aerosol_profile;5

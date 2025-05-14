@@ -14,59 +14,71 @@ Calculation of the PSFs follows formulas provided in:
 # IMPORT PACKAGES
 # ======================================================================= #
 from scipy.signal import convolve2d
+from scipy.ndimage import zoom
 import numpy as np
 
 
 # ======================================================================= #
 # GAUSSIAN PSF
 # ======================================================================= #
-def gaussian_psf(grid, sigma):
+def gaussian_psf(img_ratio):
     """
     Gaussian psf filter function to simulate environment effects from
     surrounding pixels
 
     Parameters:
-        - sigma (float): standard deviation for gaussian distribution
-        - grid (array): convolution filter window grid
+        - img_ratio (int): ratio of sensor and ground truth pixel size
 
     Returns:
         Gaussian PSF (array)
     """
 
+    sigma = 1.5
+    convx = np.linspace(-1.5, 1.5, 3)
+    convy = np.linspace(-1.5, 1.5, 3)
+    convx, convy = np.meshgrid(convx, convy)
+    grid = (convx, convy)
+
     psf = (
         (1 / (2 * np.pi * sigma * sigma))
         * np.exp(-(grid[0]**2 / sigma**2 + grid[1]**2 / sigma**2))
     )
-    return psf / psf.sum()
+
+    gaussian_psf = zoom(psf, zoom=img_ratio, order=1)
+
+    return gaussian_psf / gaussian_psf .sum()
 
 # ======================================================================= #
 # RECTANGULAR PSF
 # ======================================================================= #
 
 
-def rectangular_psf(grid, rect_size):
+def rectangular_psf(img_ratio):
     """
     Rectangular filter to simulate the pixel cell of the sensor
 
     Parameters:
-        - grid (array): convolution filter window grid
-        - rect_size (int): rectangle sensor pixel size
+        - img_ratio (int): ratio of sensor and ground truth pixel size
 
     Returns:
         - Rectangular PSF (array)
     """
 
-    psf = (
-        (np.abs(grid[0]) <= rect_size / 2)
-        & (np.abs(grid[1]) <= rect_size / 2)
-    )
-    return psf.astype(float) / psf.sum()
+    shape = (img_ratio * 3, img_ratio * 3)
+    size = (img_ratio, img_ratio)
+
+    rect_psf = np.zeros(shape, dtype=int)
+    start_y = (shape[0] - size[0]) // 2
+    start_x = (shape[1] - size[1]) // 2
+    rect_psf[start_y:start_y + size[0], start_x:start_x + size[1]] = 1
+
+    return rect_psf.astype(float) / rect_psf.sum()
 
 
 # ======================================================================= #
 # MAIN FUNCTION
 # ======================================================================= #
-def main(grid, gaussian_sigma, rect_size):
+def main(img_ratio):
     """
     Compute both filters and convolve them to produce Net PSF
 
@@ -81,8 +93,8 @@ def main(grid, gaussian_sigma, rect_size):
     """
 
     # Generate individual PSFs
-    gau_psf = gaussian_psf(grid, gaussian_sigma)
-    rect_psf = rectangular_psf(grid, rect_size)
+    gau_psf = gaussian_psf(int(img_ratio))
+    rect_psf = rectangular_psf(int(img_ratio))
 
     # Combine into net PSF via convolution
     net_psf = convolve2d(gau_psf, rect_psf, mode='same')

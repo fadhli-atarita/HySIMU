@@ -53,12 +53,16 @@ start_time = time.time()
 # ======================================================================= #
 # Read input .xlsx file
 input_file = sys.argv[1]
-df = pd.read_excel(input_file)
-# df = pd.read_csv(input_file, sep=';')
+df = pd.read_excel(input_file)  # if input file is an .xlsx
+# df = pd.read_csv(input_file, sep=';')  # if input file is a .csv
 
 # Directories
 project_dir = df.loc[
     df["parameter"] == "project_directory_path",
+    "value"].iloc[0]
+# Output directory to save outputs and temporarily save lrt albedo files
+output_dir = df.loc[
+    df["parameter"] == "output_directory_path",
     "value"].iloc[0]
 
 # Project and Mission info
@@ -139,7 +143,7 @@ try:
     spatial_nugget = spatial_nugget.split(',')
     spatial_nugget = [float(var) for var in spatial_nugget]
 except Exception:
-    spatial_nugget = 0.1 * np.ones(num_endmembers)
+    spatial_nugget = 0.05 * np.ones(num_endmembers)
     logger.warning(
         "Default or invalid spatial correlation nugget values. "
         "0.1 is assumed for all spectral zones."
@@ -197,6 +201,15 @@ if spectral_map_file.endswith((".mat", ".npy")):
         spatial_nugget=spatial_nugget
     )
 
+    if DEM_option == "none":
+        dem_i = np.zeros_like(subregion_map)
+    elif DEM_option == "random":
+        logger.warning(
+            "An input spectral map cannot be combined with "
+            "a random DEM. Flat DEM is assumed"
+        )
+        dem_i = np.zeros_like(spectral_map)
+
 # Else if spectral zone map is based on DEM
 elif spectral_map_file.lower() == "dem_based_fractal":
 
@@ -205,38 +218,46 @@ elif spectral_map_file.lower() == "dem_based_fractal":
     # Requires DEM to be an input to the dem_i variable
     DEM_option = "dem_based_fractal"
 
-    # Import map generator module
-    import hysimu_random_map_generator as hy_map
+    # Check if input dem is valid
+    if "dem_i" in globals() and dem_i.size > 0:
+        # Import map generator module
+        import hysimu_random_map_generator as hy_map
 
-    # Get DEM dimensions
-    num_row = dem_i.shape[0]
-    num_col = dem_i.shape[1]
+        # Get DEM dimensions
+        num_row = dem_i.shape[0]
+        num_col = dem_i.shape[1]
 
-    # Run hysimu_random_map_generator main function
-    # max_height is None because DEM is already prescribed
-    # dem_r will be ignored
-    spectral_map, dem_r, subregion_map = hy_map.main(
-        num_row=num_row,
-        num_col=num_col,
-        complex_level=complex_lvl,
-        num_endmembers=num_endmembers,
-        num_subregions=num_subregions,
-        max_height=None,
-        DEM_option=DEM_option,
-        DEM_input=dem_i,
-        random_factor=random_factor,
-        spatial_nugget=spatial_nugget
-    )
+        # Run hysimu_random_map_generator main function
+        # max_height is None because DEM is already prescribed
+        # dem_r will be ignored
+        spectral_map, dem_r, subregion_map = hy_map.main(
+            num_row=num_row,
+            num_col=num_col,
+            complex_level=complex_lvl,
+            num_endmembers=num_endmembers,
+            num_subregions=num_subregions,
+            max_height=None,
+            DEM_option=DEM_option,
+            DEM_input=dem_i,
+            random_factor=random_factor,
+            spatial_nugget=spatial_nugget
+        )
 
-    # Save spectral distribution map as a gzip file
-    f = gzip.GzipFile(
-        project_dir + "/" + project_name + "_spectral_map.npy.gz",
-        "w")
-    np.save(file=f, arr=spectral_map)
-    f.close()
+        # Save spectral distribution map as a gzip file
+        f = gzip.GzipFile(
+            output_dir + "/" + project_name + "_spectral_map.npy.gz",
+            "w")
+        np.save(file=f, arr=spectral_map)
+        f.close()
 
-    # Reassign DEM variable
-    dem_map = dem_i
+        # Reassign DEM variable
+        dem_map = dem_i
+
+    # Else, input DEM is invalid
+    else:
+        raise ValueError(
+            "DEM_based_fractal option requires an input DEM file"
+        )
 
 # Else if spectral zone map is randomly generated
 elif spectral_map_file.lower() == "random":
@@ -280,33 +301,39 @@ elif spectral_map_file.lower() == "random":
 
     # Save spectral distribution map as a gzip file
     f = gzip.GzipFile(
-        project_dir + "/" + project_name + "_spectral_map.npy.gz",
+        output_dir + "/" + project_name + "_spectral_map.npy.gz",
         "w")
     np.save(file=f, arr=spectral_map)
     f.close()
 
-    # Check if DEM already prescribed as input or generated
-    # dem_i: input | dem_r: randomly generated
-    try:
-        # If DEM exists as an input, assign dem_i as dem_map
-        dem_map = dem_i if dem_i else dem_r
-    except NameError:
-        # Catch the scenario if dem_i doesn't exist. assign
-        # dem_r as dem_map
-        dem_map = dem_r if "dem_r" in globals() else None
-
-    # Save the generated DEM
-    f = gzip.GzipFile(
-        project_dir + "/" + project_name + "_dem_map.npy.gz",
-        "w")
-    np.save(file=f, arr=dem_map)
-    f.close()
-
+# Else, produce error
 else:
     raise ValueError(
         "Spectral map parameter invalid"
     )
 
+# Check if DEM already prescribed as input or generated
+# and not empty
+# dem_i: input | dem_r: randomly generated
+# If DEM exists as a randomly generated, assign dem_r as dem_map
+if "dem_r" in globals() and len(dem_r) > 0:
+    dem_map = dem_r
+    # Save the generated DEM
+    f = gzip.GzipFile(
+        output_dir + "/" + project_name + "_dem_map.npy.gz",
+        "w")
+    np.save(file=f, arr=dem_map)
+    f.close()
+# Catch the scenario if dem_r doesn't exist. assign dem_i
+elif "dem_i" in globals() and len(dem_i) > 0:
+    dem_map = dem_i
+# Else, if something is wrong, assume a flat DEM
+else:
+    logger.warning(
+        "DEM variable is invalid or empty. "
+        "Flat DEM is assumed."
+    )
+    dem_map = np.zeros_like(spectral_map)
 
 # ======================================================================= #
 # READ/SELECT SPECTRAL ENDMEMBERS
@@ -418,7 +445,7 @@ elif spectral_endmembers_file.lower() == "random":
         num_endmembers=num_endmembers,
         sensor_bands=sensor_bands,
         spectra_type=spectra_type,
-        output_dir=project_dir,
+        output_dir=output_dir,
         project_name=project_name
     )
 
@@ -489,7 +516,7 @@ if add_spectral_texture.lower() == "yes":
 
     # Save statistical spectra as a gzip file
     f = gzip.GzipFile(
-        project_dir + "/" + project_name + "_statistical_spectra.npy.gz",
+        output_dir + "/" + project_name + "_statistical_spectra.npy.gz",
         "w")
     np.save(file=f, arr=statistical_spectra)
     f.close()
@@ -534,6 +561,12 @@ if control_pixels.lower() == "yes":
 else:
     logger.info("No control pixels in the scene.")
 
+# Save synthetic surface reflectance datacube
+f = gzip.GzipFile(
+    output_dir + "/" + project_name + "_surface_reflectance_datacube.npy.gz",
+    "w")
+np.save(file=f, arr=synthetic_ground_truth)
+f.close()
 
 # ======================================================================= #
 # COMPUTE PIXEL-BASED SOLAR & VIEW GEOMETRY
@@ -702,10 +735,6 @@ elif rtm_choice.lower() == "lrt":
     lrt_path = df.loc[
         df["parameter"] == "LRT_path",
         "value"].iloc[0]
-    # Scratch directory to temporarily save lrt albedo files
-    scratch_dir = df.loc[
-        df["parameter"] == "LRT_scratch_directory_path",
-        "value"].iloc[0]
     # LRT output type
     output_type = df.loc[
         df["parameter"] == "LRT_output_type",
@@ -737,7 +766,7 @@ elif rtm_choice.lower() == "lrt":
     rtm_datacube = hy_lrt.main(
         lrt_path=lrt_path,
         output_type=output_type,
-        scratch_directory=scratch_dir,
+        output_dir=output_dir,
         project_name=project_name,
         datacube=synthetic_ground_truth,
         aero=aero,
@@ -894,29 +923,14 @@ elif psf_filter.lower() == "simplified":
     import hysimu_psf_filter_simplified as hy_psf
 
     # Gaussian PSF window size based on the assumption that more than
-    # 50% pixel response originated from the surrounding pixels and
+    # around 50% pixel response originated from the surrounding pixels
+    # [Inamdar, D., et al., 2020] and
     # from references [Gonzalez and Woods, 2017, p. 168]
-    # kernel radius ~ 3x pixel size (sigma): window size 6xsigma
-    window_size = int(6 * img_ratio)
-    convx = np.linspace(
-        -int(np.floor(img_ratio)), int(np.ceil(img_ratio)), window_size
-    )
-    convy = np.linspace(
-        -int(np.floor(img_ratio)), int(np.ceil(img_ratio)), window_size
-    )
-    convx, convy = np.meshgrid(convx, convy)
-    conv_grid = (convx, convy)
-
-    # Define parameters for PSFs
-    gaussian_sigma = img_ratio
-    # Gaussian PSF standard deviation
-    rect_size = img_ratio  # size of rectangular PSF
+    # kernel size ~ 3x pixel size (sigma)
 
     # net psf from convolution of a gaussian PSF and a rect PSF
     net_psf = hy_psf.main(
-        grid=conv_grid,
-        gaussian_sigma=gaussian_sigma,
-        rect_size=rect_size
+        img_ratio=img_ratio
     )
 
 # Otherwise, not PSF filter is assumed and the datacube will be spatially
@@ -1041,7 +1055,7 @@ metadata = {
 }
 
 # save output datacube as a .BSQ ENVI file with a header
-output_filename = project_dir + "/" + project_name + "_" + output_type + ".hdr"
+output_filename = output_dir + "/" + project_name + "_" + output_type + ".hdr"
 spy.envi.save_image(
     output_filename, output_datacube,
     metadata=metadata, force=True,

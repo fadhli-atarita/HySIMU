@@ -16,147 +16,147 @@ Do not use apostrophe/quotation marks to write paths, names, and other inputs.
 
 Parameter guides:
 (start at 2, to match the line in the excel file)
-2. project_directory_path > directory path (str) to run the simulation in. all input files 
+2. project_directory_path > (str) directory path to run the simulation in. all input files 
 				should be added into this directory.
-3. project_name > (str) this will be used to differentiate simulations and name all the outputs.
-4. platform_type > (str) type of remote sensing platform. "satellite", "aircraft", "uav". 
+3. output_directory_path > (str) path to the output directory to store all output files 
+				and temporary albedo files for libradtran computation. 
+4. project_name > (str) this will be used to differentiate simulations and name all the outputs.
+5. platform_type > (str) type of remote sensing platform. "satellite", "aircraft", "uav". 
 			will impact the sensor altitude.
-5. platform_or_sensor_identifier > (str) platform or sensor name for identifier, if any.
-6. processing_cores > (int) number of cores to run the scripts. has to be the same as in the 
+6. platform_or_sensor_identifier > (str) platform or sensor name for identifier, if any.
+7. processing_cores > (int) number of cores to run the scripts. has to be the same as in the 
 			slurm file. 64 or more is recommended.
-7. joblib_verbose_level > (int) joblib tracking. 0 means no tracking output. >0 prints tracking
+8. joblib_verbose_level > (int) joblib tracking. 0 means no tracking output. >0 prints tracking
 				output. higher verbose level may affect running time.
-8. spectral_map_pixel_resolution_in_m > (float) spatial resolution of the input spectral map 
+9. spectral_map_pixel_resolution_in_m > (float) spatial resolution of the input spectral map 
 					or the random spectral map in meter
 					(ground truth resolution).
-9. sensor_spatial_resolution_in_m > (float) the spatial resolution of the sensor in meter
-10. spectral_map_file > (str) path to the input spectral distribution map file. can be either a 
+10. sensor_spatial_resolution_in_m > (float) the spatial resolution of the sensor in meter
+11. spectral_map_file > (str) path to the input spectral distribution map file. can be either a 
 				.mat v7.3 file or a .npy file. set it to "random" if a 
 				random distribution map from a randomly generated fractal field
 				is desired or "dem_based_fractal" to create spectral zones
 				from delienating the DEM file.
-11. spectral_map_complexity_level > (float) complexity level of the distribution map. a float
+12. spectral_map_complexity_level > (float) complexity level of the distribution map. a float
 					starting from 0 (high complexity). complexity will 
 					decrease as this value increases.
-12. spectral_map_randomness_offset_factor > (float) randomizers, so that the same DEM file can 
+13. spectral_map_randomness_offset_factor > (float) randomizers, so that the same DEM file can 
 						produce difference discretization, if desired for
 						sensitivity studies. set to 0 if equal binning
 						is desired: this means that the same DEM file
 						will always produce the same spectral zones.
 						otherwise set to a float value [0,1].
-13. number_of_endmembers > (int) a value greater than 0. number of spectra in the spectra file 
+14. number_of_endmembers > (int) a value greater than 0. number of spectra in the spectra file 
 				or the desired number of spectral zones in the distribution map.
 				required for both "random" or prescribed distribution map.
-14. number_of_subregions > (int) number of subregions that corresponds to the number of spectra
+15. number_of_subregions > (int) number of subregions that corresponds to the number of spectra
 				synthetisized (spectral texture). if no texture is desired,
 				set this parameter to 1. otherwise, set it to any other
 				positive integer. The higher, the more "textured" the datacube
 				will look. recommended value is a quarter of the minimum
 				dimension size of the spectral map or DEM.
-15. number_of_rows > (int) size of dimension 1 (row) of the spectral distribution map.
-			only if parameter 9 is set to "random". otherwise, set it to "none". 
-16. number_of_columns > (int) size of dimension 2 (column) of the spectral distribution map.
-			only if parameter 9 is set to "random". otherwise, set it to "none". 
-17. spectral_endmembers_file > (str) path to spectra endmembers file. can be either a 
+16. number_of_rows > (int) size of dimension 1 (row) of the spectral distribution map.
+			only if parameter 11 is set to "random". otherwise, set it to "none". 
+17. number_of_columns > (int) size of dimension 2 (column) of the spectral distribution map.
+			only if parameter 11 is set to "random". otherwise, set it to "none". 
+18. spectral_endmembers_file > (str) path to spectra endmembers file. can be either a 
 				.mat v7.3 file or a .npy file with row numbers representing
 				number of bands and columns representing number of 
 				endmembers. contain reflectance values from 0 to 1.
 				set it to "random" if a randomly selected spectra from 
 				the ecostress library are desired.
-18. original_bands_file > (str) path to the original bands file (1 column ascii file) at which 
-				the endmember spectra are sampled. only if parameter 17 
+19. original_bands_file > (str) path to the original bands file (1 column ascii file) at which 
+				the endmember spectra are sampled. only if parameter 18 
 				is set to a file path. in nanometers (nm).
 				otherwise, set it to "none".
-19. original_bands_fwhm_file > (str) path to the original bands full-width half maximum file.
+20. original_bands_fwhm_file > (str) path to the original bands full-width half maximum file.
 				the file should contain a list of fwhm values the same dimension
 				as the original bands file. in nanometers (nm). can also be set to
 				 "none" for which FWHM is assumed to be half distance for all bands.
-20. sensor_bands_file > (str) path to the sensor bands file (1 column ascii file) at which
+21. sensor_bands_file > (str) path to the sensor bands file (1 column ascii file) at which
 				the ground truth datacube will be sampled. in nanometers (nm).
-21. sensor_bands_fwhm_file > (str) path to the sensor bands full-width half maximum file. the file
+22. sensor_bands_fwhm_file > (str) path to the sensor bands full-width half maximum file. the file
 				should contain a list of fwhm values the same dimension as the
 				original bands file. in nanometers (nm). can also be set to "none"
 				for which FWHM is assumed to be half distance for all bands.
-22. spectral_endmembers_material_type > (str) material type of the randomized endmembers.
-					"mineral" or "vegetation". required  if parameter 17 is
+23. spectral_endmembers_material_type > (str) material type of the randomized endmembers.
+					"mineral" or "vegetation". required  if parameter 18 is
 					set to "random". otherwise set to "none".
-23. input_DEM_file > (str) path to the DEM file. can be either a .mat v7.3 file or a .npy 
+24. input_DEM_file > (str) path to the DEM file. can be either a .mat v7.3 file or a .npy 
 			file. set it to "random" if a random dem is desired, which will be
 			generated from the same fractal field as the spectral distribution/zone
-			map.
-24. DEM_maximum_altitude > (float) maximum point altitude in the DEM. only if parameter 23 is set
+			map. an input spectral map cannot be combined with a "random" DEM.
+25. DEM_maximum_altitude > (float) maximum point altitude in the DEM. only if parameter 24 is set
 				to "random". otherwise, set it to "none". recommended 
 				values: 5% of max map dimension.
-25. spatial_correlation_nugget_list > (list, float) a list of values that represent the spatial
+26. spatial_correlation_nugget_list > (list, float) a list of values that represent the spatial
 					variance nugget of the generated random field that represents
 					the "spatial texture" of the image. the number of elements
 					in the list  must correspond to the number of endmembers
-					(parameter 13). Higher value means noisier texture. 
-					if parameter 14 is set to 1, this parameter will not have any
+					(parameter 14). Higher value means noisier texture. 
+					if parameter 15 is set to 1, this parameter will not have any
  					effect. default value is 0.05 and recommended value is 0.01.
 					be advised that this parameter will make the datacube look
-					'noisy' unless parameter 14 is set to 1.
-26. add_spectral_statistical_texture > (str) "yes" or "no". provides option to add the 'texture'
+					'noisy' unless parameter 15 is set to 1.
+27. add_spectral_statistical_texture > (str) "yes" or "no". provides option to add the 'texture'
 					to the datacube. if set to no, it overrides all other texture
-					parameters (14 & 25). the datacube will look uniform
+					parameters (15 & 26). the datacube will look uniform
 					within each spectral zone.
-27. spectral_variance_list > (list, float) a list of spectral variances for each spectral zone,
+28. spectral_variance_list > (list, float) a list of spectral variances for each spectral zone,
 				if varied level 'texture' is desired. the number of elements in the
-				list must correspond to the number of endmembers (parameter 13).
+				list must correspond to the number of endmembers (parameter 14).
 				otherwise, set to "default" and a uniform variance of 0.025 is assumed.
-28. num_of_synthetic_samples > (int) number of synthetic samples that will be generated to provide
+29. num_of_synthetic_samples > (int) number of synthetic samples that will be generated to provide
 				spectral texture. can be set to "default" and 5 synthetic samples for
 				each endmember will be generated. this parameter will be neglected if
-				parameter 26 is set to "no".
-29. add_control_pixels > (str) "yes" or "no". an option to include control pixels for sensitivity
+				parameter 27 is set to "no".
+30. add_control_pixels > (str) "yes" or "no". an option to include control pixels for sensitivity
 				studies. dark pixels will be generated in the top-left corner and
         			bright pixels in the bottom-right corner.
-30. sensor_altitude_in_m > (float) altitude of the sensor/platform above sea level in meter.
-31. PSF_filter_option > (str) PSF filter type. either "simplified" or "SR2". see hysimu_main.py
+31. sensor_altitude_in_m > (float) altitude of the sensor/platform above sea level in meter.
+32. PSF_filter_option > (str) PSF filter type. either "simplified" or "SR2". see hysimu_main.py
 				for explanation and reference. if "SR2" is chosen, 
-				parameters 24-28 are required. otherwise, set them to 
+				parameters 33-39 are required. otherwise, set them to 
 				"none". 
-32. flight_line_heading_in_degrees > (int) heading of the simulated flight in degrees.
+33. flight_line_heading_in_degrees > (int) heading of the simulated flight in degrees.
 					(north=0, east=90, south=180, west=270).
-33. sensor_FOV_in_degrees > (int) field of view of the sensor in degrees.
-34. sensor_pixel_count > (int) number of cross track pixels in the sensor.
-35. platform_speed_in_meter_per_sec > (float) platform speed in m/s.
-36. sensor_integration_time_in_sec > (float) integration time of the sensor in seconds.
-37. cross_track_summing_factor > (int) summing factor of simulated sensor in cross track direction. 
+34. sensor_FOV_in_degrees > (int) field of view of the sensor in degrees.
+35. sensor_pixel_count > (int) number of cross track pixels in the sensor.
+36. platform_speed_in_meter_per_sec > (float) platform speed in m/s.
+37. sensor_integration_time_in_sec > (float) integration time of the sensor in seconds.
+38. cross_track_summing_factor > (int) summing factor of simulated sensor in cross track direction. 
 					if unknown, set to 1.
-38. optical_FWHM > (int) full-width half maximum (pixels) of simulated sensor's optical point spread
+39. optical_FWHM > (int) full-width half maximum (pixels) of simulated sensor's optical point spread
 			function (PSF). if unknown, set to 1.
-39. spatial_mixing_order > (int) order of the spline interpolation for spatial resampling 
+40. spatial_mixing_order > (int) order of the spline interpolation for spatial resampling 
 				of the ground truth datacube based on sensor parameters.
 				values are from 1 to 5 (linear, bi-liner, cubic, and so on).
-40. compute_solar_geometry > (str) "yes" or "no". option to correct and calculate DEM-based solar
+41. compute_solar_geometry > (str) "yes" or "no". option to correct and calculate DEM-based solar
 				and view geometry.
-41. acquisition_date > (str) local survey acquisition date in YYYY/MM/DD format.
-42. acquisition_time > (str) local survey acquisition time in HH:MM:SS format.
-43. top_left_pixel_latitude > (float) latitude of the reference pixel (top left pixel at [0, 0]).
-44. top_left_pixel_longitude > (float) longitude of the reference pixel (top left pixel at [0, 0]).
-45. view_azimuth_angle > (float) azimuth angle of the platform flight line in degrees. 
+42. acquisition_date > (str) local survey acquisition date in YYYY/MM/DD format.
+43. acquisition_time > (str) local survey acquisition time in HH:MM:SS format.
+44. top_left_pixel_latitude > (float) latitude of the reference pixel (top left pixel at [0, 0]).
+45. top_left_pixel_longitude > (float) longitude of the reference pixel (top left pixel at [0, 0]).
+46. view_azimuth_angle > (float) azimuth angle of the platform flight line in degrees. 
 				from 0 (north) to 360 moving east.
-46. view_zenith_angle > (float) view zenith angle of the sensor in degrees.
+47. view_zenith_angle > (float) view zenith angle of the sensor in degrees.
 				from 0 (overhead) to 90 (horizon).
-47. rtm_choice > (str) user choice of the radiative transfer model. "6S" or "LRT" or "none". 
-			parameters 48 to 60 depend on this choice. set all the not-chosen
+48. rtm_choice > (str) user choice of the radiative transfer model. "6S" or "LRT" or "none". 
+			parameters 49 to 60 depend on this choice. set all the not-chosen
 			RTM parameter to "default". otherwise, see below.
-48. 6S_path > (str) path to 6S installation. set it to "default" if it is already in PATH. 
-49. 6S_output_type > (str) final datacube data type. either "apparent_reflectance" 
+49. 6S_path > (str) path to 6S installation. set it to "default" if it is already in PATH. 
+50. 6S_output_type > (str) final datacube data type. either "apparent_reflectance" 
 			or "apparent_radiance". see 6S documentation for reference.
 			if not needed, set as "none".
-50. 6S_atmosphere_profile > (str) predefined profiles from py6S. choose from: 
+51. 6S_atmosphere_profile > (str) predefined profiles from py6S. choose from: 
 				"NoGaseousAbsorption" | "Tropical" | "MidlatitudeSummer" |
 				"MidlatitudeWinter | "SubarcticSummer" | "SubarcticWinter" |
 				"USStandard1962". choose "auto" to pick based on latitude
 				and date
-51. 6S_aerosol_profile > (str) predefined profiles from py6S. choose from: 
+52. 6S_aerosol_profile > (str) predefined profiles from py6S. choose from: 
 				"NoAerosols" | "Continental" | "Maritime" | "Urban" | "Desert" | 
 				"BiomassBurning" | "Stratospheric".
-52. LRT_path > (str) path to libradtran installation. has to be explicitly specified.
-53. LRT_scratch_directory_path > (str) path to a scratch directory to store temporary albedo
-					files for libradtran computation. 
+53. LRT_path > (str) path to libradtran installation. has to be explicitly specified.
 54. LRT_output_type > (str) final datacube data type. either "reflectance" or "radiance". see
 			libradtran documentation for reference.
 			if not needed, set as "none".
@@ -170,19 +170,19 @@ Parameter guides:
 			of the entire atmospheric column will be scaled. can also be a path to a
 			file that contains a grid of specific values of H2O concentration 
 			at every pixel. grid size has to be the same as the spectral distribution
-			map (parameter 15 & 16) or the input map file dimensions. otherwise, set
+			map (parameter 16 & 17) or the input map file dimensions. otherwise, set
 			to "default".
 58. LRT_CO2_ppm > (float/str) CO2 concentration at the target altitude in ppm. the values of the
 			entire atmospheric column will be scaled. can also be a path to a
 			file that contains a grid of specific values of CO2 concentration 
 			at every pixel. grid size has to be the same as the spectral distribution
-			map (parameter 15 & 16) or the input map file dimensions. otherwise, set
+			map (parameter 16 & 17) or the input map file dimensions. otherwise, set
 			to "default".
 59. LRT_CH4_ppm > (float/str) CH4 concentration at the target altitude in ppm. the values of the
 			entire atmospheric column will be scaled. can also be a path to a
 			file that contains a grid of specific values of CH4 concentration 
 			at every pixel. grid size has to be the same as the spectral distribution
-			map (parameter 15 & 16) or the input map file dimensions. otherwise, set
+			map (parameter 16 & 17) or the input map file dimensions. otherwise, set
 			to "default".
 60. no_rtm_output_type > (str) output data type if no RTM is used. choose from: "radiance" or
 				"reflectance". if not needed, set as "none".
