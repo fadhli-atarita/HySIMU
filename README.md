@@ -109,7 +109,7 @@ Hyperspectral remote sensing Spatial Response Resampling (SR2)
     This matlab function depends on the platform on which hysimu is run. See suffixes:
   - _LNX for linux
   - _WIN for windows
-  - _MAC for macos (not included yet)
+  - _MAC for macos
 
   It requires either a full matlab OR the freely available matlab runtime installation version 2024b.
 
