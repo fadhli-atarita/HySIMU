@@ -36,7 +36,9 @@ Parameter guides:
 				.mat v7.3 file or a .npy file. set it to "random" if a 
 				random distribution map from a randomly generated fractal field
 				is desired or "dem_based_fractal" to create spectral zones
-				from delienating the DEM file.
+				from delienating the DEM file. The file should consists of integers
+				from 0 to num_of_endmember-1 that represent the pixel location of
+				the corresponding spectral material
 12. spectral_map_complexity_level > (float) complexity level of the distribution map. a float
 					starting from 0 (high complexity). complexity will 
 					decrease as this value increases.
@@ -85,7 +87,8 @@ Parameter guides:
 24. input_DEM_file > (str) path to the DEM file. can be either a .mat v7.3 file or a .npy 
 			file. set it to "random" if a random dem is desired, which will be
 			generated from the same fractal field as the spectral distribution/zone
-			map. an input spectral map cannot be combined with a "random" DEM.
+			map. an input spectral map cannot be combined with a "random" DEM. otherwise
+			set to "none".
 25. DEM_maximum_altitude > (float) maximum point altitude in the DEM. only if parameter 24 is set
 				to "random". otherwise, set it to "none". recommended 
 				values: 5% of max map dimension.
@@ -105,7 +108,7 @@ Parameter guides:
 28. spectral_variance_list > (list, float) a list of spectral variances for each spectral zone,
 				if varied level 'texture' is desired. the number of elements in the
 				list must correspond to the number of endmembers (parameter 14).
-				otherwise, set to "default" and a uniform variance of 0.025 is assumed.
+				otherwise, set to "default" and a uniform variance of 0.0025 is assumed.
 29. num_of_synthetic_samples > (int) number of synthetic samples that will be generated to provide
 				spectral texture. can be set to "default" and 5 synthetic samples for
 				each endmember will be generated. this parameter will be neglected if
@@ -136,7 +139,9 @@ Parameter guides:
 42. acquisition_date > (str) local survey acquisition date in YYYY/MM/DD format.
 43. acquisition_time > (str) local survey acquisition time in HH:MM:SS format.
 44. top_left_pixel_latitude > (float) latitude of the reference pixel (top left pixel at [0, 0]).
+					North is positive, South is negative
 45. top_left_pixel_longitude > (float) longitude of the reference pixel (top left pixel at [0, 0]).
+					East is positive, West is negative
 46. view_azimuth_angle > (float) azimuth angle of the platform flight line in degrees. 
 				from 0 (north) to 360 moving east.
 47. view_zenith_angle > (float) view zenith angle of the sensor in degrees.
