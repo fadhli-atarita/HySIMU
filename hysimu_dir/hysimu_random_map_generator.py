@@ -92,11 +92,12 @@ def generate_fields(
         # Generate random Fourier noise components
         noise_real = np.random.normal(size=(num_row, num_col))
         noise_imag = np.random.normal(size=(num_row, num_col))
-        # Normalize the noise using the power spectrum coeffs
-        noise_ft = (noise_real + 1j * noise_imag) * np.sqrt(power_spectrum)
+        # Generate and scale a new set of coefficients using noise
+        # and power spectrum
+        coeffs = (noise_real + 1j * noise_imag) * np.sqrt(power_spectrum)
 
         # Inverse FFT to generate the spatial field
-        fractal_field = np.real(np.fft.ifft2(noise_ft))
+        fractal_field = np.real(np.fft.ifft2(coeffs))
 
         # If DEM is already prescribed as an input, set the variable empty
         if DEM_option == "input":
