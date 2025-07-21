@@ -11,6 +11,8 @@ hyperspectral at sensor reflectance or radiance datacubes based on:\
     - Mission parameters\
     - Atmospheric parameters (for Radiative Transfer Model)
 
+If you use or plan to modify this algorithm, please notify the author by email at fadhli.atarita@queensu.ca
+
 Modules
 -------------
 HySIMU consists of the main "hysimu_main.py" script and several functions/modules, all located inside the hysimu directory ("/hysimu_dir"):
