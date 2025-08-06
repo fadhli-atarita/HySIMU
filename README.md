@@ -5,7 +5,7 @@ Author: Fadhli Atarita\
 Year: 2025\
 Version: 2.0
 
-A Hyperspectral remote sensing forward modelling toolkit to create synthetic
+A Hyperspectral remote sensing forward modelling toolkit for creating synthetic
 hyperspectral at sensor reflectance or radiance datacubes based on:\
     - Sensor & platform parameters\
     - Mission parameters\
