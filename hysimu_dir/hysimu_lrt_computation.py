@@ -162,7 +162,7 @@ def lrt_computation(
     sun_zen = solar_angles_grid[i, j, 1]
     if sun_zen >= 90:
         sun_zen = 89.9999
-        # if the sun is behind the plane, set angel #to 89.9999 to prevent
+        # if the sun is behind the plane, set angle #to 89.9999 to prevent
         # error
     slrt.options["sza"] = str(sun_zen)  # sun zenith angle
 
@@ -465,3 +465,4 @@ if __name__ == "__main__":
 
 # ======================================================================= #
 # ======================================================================= #
+
