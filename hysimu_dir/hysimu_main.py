@@ -407,7 +407,7 @@ if spectral_endmembers_file.endswith(".mat"):
         fwhm1=og_bands_fwhm,
         fwhm2=sensor_bands_fwhm
     )
-    endmembers = resampler(og_endmembers)
+    re_endmembers = resampler(og_endmembers)
 
 elif spectral_endmembers_file.endswith(".npy"):
     # If endmember signatures contained in a matlab v7.3 file
@@ -421,7 +421,7 @@ elif spectral_endmembers_file.endswith(".npy"):
         fwhm1=og_bands_fwhm,
         fwhm2=sensor_bands_fwhm
     )
-    endmembers = resampler(og_endmembers)
+    re_endmembers = resampler(og_endmembers)
 
 # Else if endmember spectral signatures are randomly generated
 elif spectral_endmembers_file.lower() == "random":
@@ -441,7 +441,7 @@ elif spectral_endmembers_file.lower() == "random":
         "value"].iloc[0]
 
     # Randomly select the spectra
-    endmembers = hy_spec.main(
+    re_endmembers = hy_spec.main(
         num_endmembers=num_endmembers,
         sensor_bands=sensor_bands,
         spectra_type=spectra_type,
@@ -455,6 +455,19 @@ else:
         "Input spectral endmembers invalid."
     )
 
+# Check if resampled endmembers contain nans due to insufficient sampling
+# If so, inter-/extra-polate endmember spectra based on sensor_bands
+if np.isnan(re_endmembers).any():
+    endmembers = np.column_stack([
+        np.interp(
+            sensor_bands,
+            sensor_bands[~np.isnan(re_endmembers[:, i])],
+            re_endmembers[~np.isnan(re_endmembers[:, i]), i]
+        )
+        for i in range(re_endmembers.shape[1])
+    ])
+else:
+    endmembers = re_endmembers
 
 # ======================================================================= #
 # BUILD AND PROCESS SYNTHETIC SURFACE REFLECTANCE (GROUND TRUTH) DATACUBE

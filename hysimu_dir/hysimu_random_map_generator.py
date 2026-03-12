@@ -206,6 +206,7 @@ def add_spatial_texture(
         )
         srf = gs.SRF(model, seed=seed_lyr())
         region_texture = srf.structured([x, y])
+        print(region_texture)
 
         # Divide each region into subregions and fill with texture
         sub_thresholds = np.linspace(

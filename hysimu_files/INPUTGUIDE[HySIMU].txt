@@ -76,7 +76,9 @@ Parameter guides:
 				as the original bands file. in nanometers (nm). can also be set to
 				 "none" for which FWHM is assumed to be half distance for all bands.
 21. sensor_bands_file > (str) path to the sensor bands file (1 column ascii file) at which
-				the ground truth datacube will be sampled. in nanometers (nm).
+				the ground truth datacube will be sampled. in nanometers (nm). if 
+				sensor_bands and orignial_bands do not overlap at certain bands,
+				spectra will be linearly interpolated.
 22. sensor_bands_fwhm_file > (str) path to the sensor bands full-width half maximum file. the file
 				should contain a list of fwhm values the same dimension as the
 				original bands file. in nanometers (nm). can also be set to "none"
